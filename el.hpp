@@ -1,9 +1,9 @@
 enum arith_op{
-	add,
-	sub,
-	mul,
-	div,
-	rem,
+	e_add,
+	e_sub,
+	e_mul,
+	e_div,
+	e_rem,
 };
 
 enum rel_op {
