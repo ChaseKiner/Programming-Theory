@@ -36,7 +36,7 @@ struct IntegerLiteral;
 struct ArgExpression;
 struct ArithmeticExpression;
 struct IfExpression;
-struct BooleanExpression;
+struct BooleanLiteral;
 struct RelationalExpression;
 struct LogicalExpression;
 
@@ -57,32 +57,78 @@ struct NumericExpression {
 		kind = k;
 	}
 };
-struct IntegerLiteral{
+struct IntegerLiteral : NumericExpression{
 	int val;
 
-	IntegerLiteral(int v){
+	IntegerLiteral(int v) : NumericExpression(e_int){
 		val = v;
 	}
 };
 
-struct ArgExpression{
+struct ArgExpression : NumericExpression{
 	int arg;
 
-	ArgExpression(int args){
+	ArgExpression(int args) : NumericExpression(e_arg){
 		arg = args;
 	}
 };
 
-struct ArithmeticExpression{
+struct ArithmeticExpression : NumericExpression{
 	arith_op oper;
 	NumericExpression* lhs;
 	NumericExpression* rhs;
 
-	ArithmeticExpression(arith_op o, NumericExpression* l, NumericExpression* r){
+	ArithmeticExpression(arith_op o, NumericExpression* l, NumericExpression* r) : NumericExpression(e_arith) {
 		oper = o;
 		lhs = l;
 		rhs = r;
 	}
 };
 
+struct ifExpression : NumericExpression{
+	ifExpression(BoolExpression* c, NumericExpression* p, NumericExpression* f) : NumericExpression(e_if){
+		condition = c;
+		pass = p;
+		fail = f;
+	}
+	BoolExpression* condition;
+	NumericExpression* pass;
+	NumericExpression* fail;
+};	
+
+struct BoolExpression{
+	BoolExpression(boolean_expr_kind k){
+		kind = k;
+	}
+	boolean_expr_kind kind;
+};
+
+struct BooleanLiteral : BoolExpression  {
+	BooleanLiteral(bool b) : BoolExpression(e_bool){
+		value = b;
+	}
+	bool value;
+};
+
+struct RelationalExpression : BoolExpression{
+	RelationalExpression(rel_op oper, NumericExpression* l, NumericExpression* r) : BoolExpression(e_rel) {
+		op = oper;
+		lhs = l;
+		rhs = r;
+	}
+	NumericExpression* lhs;
+	NumericExpression* rhs;
+	rel_op op;
+};
+
+struct LogicalExpression : BoolExpression {
+	LogicalExpression(logical_op oper, BoolExpression* l, BoolExpression* r) : BoolExpression(e_logic) {
+		op = oper;
+		lhs = l;
+		rhs = r;
+	}
+	logical_op op;
+	BoolExpression* lhs;
+	BoolExpression* rhs;
+};
 
