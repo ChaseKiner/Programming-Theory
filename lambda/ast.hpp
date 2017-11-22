@@ -36,3 +36,14 @@ struct Abstraction : Expr {
 	Variable* param;
 	Expr* body;
 };
+
+struct Application : Expr {
+	Application(Expr* e1, Expr* e2)
+		: Expr(app), abs(e1), arg(e2)
+	{}
+	
+	Expr* abs;
+	Expr* arg;
+}
+
+
