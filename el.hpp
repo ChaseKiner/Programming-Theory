@@ -56,7 +56,9 @@ struct NumericExpression {
 	NumericExpression(numeric_expr_kind k){
 		kind = k;
 	}
+	void ConstantFold();
 };
+
 struct IntegerLiteral : NumericExpression{
 	int val;
 
@@ -131,4 +133,3 @@ struct LogicalExpression : BoolExpression {
 	BoolExpression* lhs;
 	BoolExpression* rhs;
 };
-
